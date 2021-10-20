@@ -1,0 +1,87 @@
+﻿@model ClearMVC.Models.Users
+
+@{
+    ViewBag.Title = "Create User";
+}
+
+<div class="col-md-12">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Benutzer erstellen</h3>
+        </div>
+
+        @using (Html.BeginForm("CreateUser", "AdminUser", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="control-label">Name</label>
+                    <input type="text" name="users.Name" required class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Nachname</label>
+                    <input type="text" name="users.LastName" required class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">E-mail</label>
+                    <input type="email" id="uEmail" name="users.Email" onfocusout="myFunction()" required class="form-control" />
+                    <p id="emailResult"></p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Straße</label>
+                    <input type="text" name="userdetails.Street" required class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Nummer</label>
+                    <input type="text" name="userdetails.Number" required class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Stadt</label>
+                    <input type="text" name="userdetails.City" required class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Bundesland</label>
+                    <input type="text" name="userdetails.Area" required class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Handynummer</label>
+                    <input type="text" name="userdetails.GSM" required class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Benutzertyp</label>
+                    @Html.DropDownList("users.UserTypesId", ViewBag.UserType as SelectList, new { @class = "form-control selectD col-md-12" })
+                </div>
+            </div>
+            <div class="box-footer">
+                <input type="submit" class="btn btn-success btn-block" value="Erstellen" />
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        function myFunction() {
+            var email = $("#uEmail").val();
+            $.ajax({
+                url: "@Url.Action("CheckUser","AdminUser")",
+                dataType: 'text',
+                type: "POST",
+                data: {
+                    'email': email
+                },
+                traditional: true,
+                success: function (data) {
+                    if (data == "Success") {
+                        $("#emailResult").removeClass().addClass("text-green").text("Vielen Danke!");
+                    } else {
+                        $("#emailResult").removeClass().addClass("text-red").text("Bitte austauschen!");
+                    }
+                },
+                error: function () {
+                    alert("An error has occured!!!");
+                }
+            });
+        }
+    </script>
+}

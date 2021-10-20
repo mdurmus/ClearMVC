@@ -1,0 +1,99 @@
+﻿@model IEnumerable<ClearMVC.Models.ProjectDetails>
+@{
+    ViewBag.Title = "ListProjectDetails";
+}
+
+<div class="col-xs-12">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Aufgaben @Model.First().Projects.Name</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Datum</th>
+                        <th>Startzeit</th>
+                        <th>Endzeit</th>
+                        <th>Für Reklamation</th>
+                        <th>Status</th>
+                        <th>Prozess</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        //Reklamasyon ise
+                        if (item.IsRefuse == true)
+                        {
+                            <tr style="background-color:#fab9b9;">
+                                <td>@item.ProjectDetailsId</td>
+                                <td>@item.ProjectDetailsTypes.Type</td>
+                                <td>@item.StartDate.Value.ToString("dd.MM.yyyy")</td>
+                                <td>@item.StartDate.Value.ToString("HH:mm")</td>
+                                <td>@item.FinishDate.Value.ToString("HH:mm")</td>
+                                <td>
+                                    @if (item.ForRefuse == true)
+                                    {
+                                        <span class="label label-danger">Ja</span>
+                                    }
+                                    else if (item.ForRefuse == false)
+                                    {
+                                        <span class="label label-success">Nein</span>
+                                    }
+                                </td>
+                                <td></td>
+                                <td>
+                                    @if (item.IsCompleted == true)
+                                    {
+                                        @Html.ActionLink("Reklamation Detail", "FollowRefuseByCustomer", "KundenUser", new { projectDetailId = item.ProjectDetailsId }, new { @class = "btn btn-warning" })
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            if (item.IsCompleted == true)
+                            {
+                                <tr>
+                                    <td>@item.ProjectDetailsId</td>
+                                    <td>@item.ProjectDetailsTypes.Type</td>
+                                    <td>@item.StartDate.Value.ToString("dd.MM.yyyy")</td>
+                                    <td>@item.StartDate.Value.ToString("HH:mm")</td>
+                                    <td>@item.FinishDate.Value.ToString("HH:mm")</td>
+                                    <td><span class="label label-success">Nein</span></td>
+                                    <td>
+                                        <span class="label label-success">Fertig</span>
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Reklamation", "RefuseToProjectDetail", "KundenUser", new { projectDetailId = item.ProjectDetailsId }, new { @class = "btn btn-warning" })
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>@item.ProjectDetailsId</td>
+                                    <td>@item.ProjectDetailsTypes.Type</td>
+                                    <td>@item.StartDate.Value.ToString("dd.MM.yyyy")</td>
+                                    <td>@item.StartDate.Value.ToString("HH:mm")</td>
+                                    <td>@item.FinishDate.Value.ToString("HH:mm")</td>
+                                    <td> <span class="label label-success">Nein</span> </td>
+                                    <td>
+                                        <span class="label label-danger">Nicht Fertig</span>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            }
+
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</div>

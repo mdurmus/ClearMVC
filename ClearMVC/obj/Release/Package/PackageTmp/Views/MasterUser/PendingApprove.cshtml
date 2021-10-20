@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ClearMVC.Models.Firma>
+@{
+    ViewBag.Title = "PendingApprove";
+}
+
+@if (Model.Count() > 0)
+{
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Ausstehende Genehmigung</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>VATCode</th>
+                                <th>Telefon</th>
+                                <th>Email</th>
+                                <th>Prozess</th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.VATCode</td>
+                                    <td><a href="tel:@item.Phone" target="_blank">@item.Phone</a></td>
+                                    <td><a href="mailto:@item.Email" target="_blank">@item.Email</a></td>
+                                    <td>
+                                        @Html.ActionLink("Firma bestätigen", "ApproveCompany", "MasterUser", new { firmaId = item.Id }, new { @class = "btn btn-success" })
+                                        @Html.ActionLink("Firma verweigern", "DenyCompany", "MasterUser", new { firmaId = item.Id }, new { @class = "btn btn-danger" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    
+}
+else
+{
+    <p>Keine Aufzeichnungen</p>
+}

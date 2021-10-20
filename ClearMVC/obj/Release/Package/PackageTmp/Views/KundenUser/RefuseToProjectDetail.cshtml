@@ -1,0 +1,61 @@
+﻿@model ClearMVC.Models.ProjectDetails
+@{
+    ViewBag.Title = "RefuseToProjectDetail";
+}
+
+<div class="col-md-12">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <i class="fa fa-text-width"></i>
+
+            <h3 class="box-title">@Model.Projects.Name Detail</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <dl>
+                <dt>Startdatum</dt>
+                <dd>@Model.StartDate.Value.ToString("dd.MM.yyyy")</dd>
+                <dt>Enddatum</dt>
+                <dd>@Model.FinishDate.Value.ToString("dd.MM.yyyy")</dd>
+                <dt>Quadrat</dt>
+                <dd>@Model.Square</dd>
+            </dl>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</div>
+<div class="col-md-12">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Reklamation</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        @using (Html.BeginForm("RefuseToProjectDetail", "KundenUser", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+    <div class="box-body">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Text</label>
+            <textarea name="RefuseText" rows="5" required cols="5" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="photo">Bilder</label>
+            <input type="file" id="photo" required name="photo" accept="image/png, image/jpeg">
+
+            <p class="help-block">Nur 1 datei.</p>
+        </div>
+        <input type="hidden" name="ProjectId" value="@Model.Projects.ProjectsId" />
+        <input type="hidden" name="ProjectDetailsId" value="@Model.ProjectDetailsId" />
+
+    </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary btn-block">Erstellen</button>
+            </div>
+        }
+    </div>
+</div>

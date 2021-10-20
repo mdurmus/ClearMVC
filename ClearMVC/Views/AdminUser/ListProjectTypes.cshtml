@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ClearMVC.Models.ProjectDetailsTypes>
+@{
+    ViewBag.Title = "ListProjectTypes";
+}
+
+    <div class="col-md-8">
+        @if (Model.Count() > 0)
+        {
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Aufgabenarten</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Typ</th>
+                                    <th>Prozess</th>
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.ProjectDetailsTypesId</td>
+                                        <td>@item.Type</td>
+                                        <td>
+                                            @Html.ActionLink("Löschen", "DeleteProjectDetailType", new { Id = item.ProjectDetailsTypesId }, new { @class = "btn btn-danger", onclick = "return confirm('Möchten Sie diesen Artikel wirklich löschen?');" })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        }
+        else
+        {
+            <div class="col-md-12">
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Keine Missionsarten</h3>
+                    </div>
+                    <div class="box-body">
+                        <p>Bitte benutzen Sie das Formular auf der rechten Seite.</p>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-4">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">Aufgabensart erstellen</h3>
+            </div>
+            <div class="box-body">
+                @using (Html.BeginForm("CreateProjectDetailType", "AdminUser", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label class="control-label">Type</label>
+                        <input type="text" required class="form-control" name="Type" />
+                    </div>
+                    <input type="submit" value="Erstellen" class="btn btn-success btn-block" />
+                }
+            </div>
+            <!-- /.box-body -->
+        </div>
+       
+    </div>

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ClearMVC.Models.News>
+@{
+    ViewBag.Title = "ListNews";
+}
+
+@if (Model.Count() > 0)
+{
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Alle Mitteilungen</h3>
+
+                <div class="box-tools">
+                    <div class="pull-right">
+                        @Html.ActionLink("Mitteilung erstellen", "CreateNews", "AdminUser", new { @class = "btn btn-success" })
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Für</th>
+                            <th>Thema</th>
+                            <th>Text</th>
+                            <th>Prozess</th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.NewsId</td>
+                                <td>
+                                    @if (item.ForCustomer == true)
+                                    {
+                                        <span class="label label-warning">Kunden</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-warning">Personal</span>
+                                    }
+                                                            </td>
+                                <td>@item.Subject</td>
+                                <td>@item.Text</td>
+                                <td>
+                                    @Html.ActionLink("Löschen", "DeleteNews", "AdminUser", new { Id = item.NewsId }, new { @class = "btn btn-danger" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+}
+else
+{
+    <div class="col-md-12">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">Keine Mitteilung</h3>
+            </div>
+            <div class="box-body">
+                @Html.ActionLink("Mitteilung Erstellen", "CreateNews", "AdminUser", new { @class = "btn btn-success btn-block" })
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+   
+}

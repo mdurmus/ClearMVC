@@ -1,0 +1,151 @@
+﻿@model IEnumerable<ClearMVC.Models.ProjectDetails>
+@{
+    ViewBag.Title = "My Jobs";
+}
+
+<div class="col-md-12">
+    <div class="box box-warning">
+        <div class="box-header with-border">
+            <h3 class="box-title">Aufgaben</h3>
+        </div>
+        @using (Html.BeginForm("MyJobs", "KundenUser", FormMethod.Post, new { @novalidate = "novalidate" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="box-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Start Datum</label>
+                        <input type="date" class="form-control" name="start" />
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>End Datum</label>
+                        <input type="date" class="form-control" name="end" />
+                    </div>
+                </div>
+
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <input type="submit" class="btn btn-block btn-warning" value="Bericht" />
+            </div>
+        }
+    </div>
+</div>
+
+@if (Model == null || Model.Count() < 1)
+{
+    <div class="col-md-12">
+        <div class="callout callout-info">
+            <h4>Keine Service Aufzeichnung</h4>
+
+            <p>Sie haben keine Serviceaufzeichnung gemäß den von Ihnen ausgewählten Kriterien.</p>
+        </div>
+    </div>
+}
+else
+{
+
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">@ViewBag.Count Aufgaben</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Datum</th>
+                            <th>Startzeit</th>
+                            <th>Endzeit</th>
+                            <th>Quadrat</th>
+                            <th>Dauer</th>
+                            <th>Für Reklamation</th>
+                            <th>Status</th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            //Reklamasyon ise
+                            if (item.IsRefuse == true)
+                            {
+                                <tr style="background-color:#fab9b9;">
+                                    <td>@item.ProjectDetailsId</td>
+                                    <td>@item.ProjectDetailsTypes.Type</td>
+                                    <td>@item.StartDate.Value.ToString("dd.MM.yyyy")</td>
+                                    <td>@item.StartDate.Value.ToString("HH:mm")</td>
+                                    <td>@item.FinishDate.Value.ToString("HH:mm")</td>
+                                    <td>@item.Square</td>
+                                    <td>@item.Duration</td>
+                                    <td>
+                                        @if (item.ForRefuse == true)
+                                        {
+                                            <span class="label label-danger">Ja</span>
+                                        }
+                                        else if (item.ForRefuse == false)
+                                        {
+                                            <span class="label label-success">Nein</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.IsCompleted == true)
+                                        {
+                                            @Html.ActionLink("Reklamation Detail", "FollowRefuseByCustomer", "KundenUser", new { projectDetailId = item.ProjectDetailsId }, new { @class = "btn btn-warning" })
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                if (item.IsCompleted == true)
+                                {
+                                    <tr>
+                                        <td>@item.ProjectDetailsId</td>
+                                        <td>@item.ProjectDetailsTypes.Type</td>
+                                        <td>@item.StartDate.Value.ToString("dd.MM.yyyy")</td>
+                                        <td>@item.StartDate.Value.ToString("HH:mm")</td>
+                                        <td>@item.FinishDate.Value.ToString("HH:mm")</td>
+                                        <td>@item.Square</td>
+                                        <td>@item.Duration</td>
+                                        <td><span class="label label-success">Nein</span></td>
+                                        <td>
+                                            <span class="label label-success">Fertig</span>
+
+                                            @*@Html.ActionLink("Reklamation", "RefuseToProjectDetail", "KundenUser", new { projectDetailId = item.ProjectDetailsId }, new { @class = "btn btn-warning" })*@
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@item.ProjectDetailsId</td>
+                                        <td>@item.ProjectDetailsTypes.Type</td>
+                                        <td>@item.StartDate.Value.ToString("dd.MM.yyyy")</td>
+                                        <td>@item.StartDate.Value.ToString("HH:mm")</td>
+                                        <td>@item.FinishDate.Value.ToString("HH:mm")</td>
+                                        <td>@item.Square</td>
+                                        <td>@item.Duration</td>
+                                        <td> <span class="label label-success">Nein</span> </td>
+                                        <td>
+                                            <span class="label label-danger">Nicht Fertig</span>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+        <!-- /.box -->
+    </div>
+
+}

@@ -1,0 +1,95 @@
+﻿@model IEnumerable<ClearMVC.Models.ProjectDetails>
+
+
+@if (Model.Count() > 0)
+{
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Registrierte Jobs</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Personal</th>
+                            <th>Type</th>
+                            <th>Datum</th>
+                            <th>Anfangzeit</th>
+                            <th>Endzeit</th>
+                            <th>Quadrat m2</th>
+                            <th>Dauer</th>
+                            <th>Für Reklamation</th>
+                            <th>Prozess</th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            if (item.IsRefuse == true)
+                            {
+                                <tr style="background-color:#fab9b9;">
+                                    <td>@item.ProjectDetailsId</td>
+                                    <td>@item.Users.Email</td>
+                                    <td>@item.ProjectDetailsTypes.Type</td>
+                                    <td>@item.StartDate.Value.ToString("dd.MM.yyyy")</td>
+                                    <td>@item.StartDate.Value.ToString("HH:mm")</td>
+                                    <td>@item.FinishDate.Value.ToString("HH:mm")</td>
+                                    <td>@item.Square</td>
+                                    <td>@item.Duration</td>
+                                    <td>
+                                        @if (item.ForRefuse == true)
+                                        {
+                                            <span class="label label-danger">Ja</span>
+                                        }
+                                        else if (item.ForRefuse == false)
+                                        {
+                                            <span class="label label-success">Nein</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Löschen", "DeleteProjectDetail", "AdminUser", new { Id = item.ProjectDetailsId }, new { @class = "btn btn-danger" })
+                                        @Html.ActionLink("Follow Reklamation", "FollowRefuseByManager", "AdminUser", new { projectDetailId = item.ProjectDetailsId }, new { @class = "btn btn-warning" })
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                    <tr>
+                        <td>@item.ProjectDetailsId</td>
+                        <td>@item.Users.Email</td>
+                        <td>@item.ProjectDetailsTypes.Type</td>
+                        <td>@item.StartDate.Value.ToString("dd.MM.yyyy")</td>
+                        <td>@item.StartDate.Value.ToString("HH:mm")</td>
+                        <td>@item.FinishDate.Value.ToString("HH:mm")</td>
+                        <td>@item.Square</td>
+                        <td>@item.Duration</td>
+                        <td>
+                            @if (item.ForRefuse == true)
+                            {
+                                <span class="label label-danger">Ja</span>
+                            }
+                            else if (item.ForRefuse == false)
+                            {
+                                <span class="label label-success">Nein</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Löschen", "DeleteProjectDetail", "AdminUser", new { Id = item.ProjectDetailsId }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                            }
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+}
+else
+{
+    <p>Keine registrierten Jobs</p>
+}

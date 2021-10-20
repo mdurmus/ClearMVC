@@ -1,0 +1,106 @@
+﻿@model IEnumerable<ClearMVC.Models.ProjectDetails>
+@{
+    ViewBag.Title = "DeleteJobs";
+}
+<div class="col-md-12">
+    <div class="box box-danger">
+        <div class="box-header with-border">
+            <h3 class="box-title">Suche Options</h3>
+        </div>
+
+        @using (Html.BeginForm("DeleteJobs", "AdminUser", FormMethod.Get))
+        {
+            <div class="box-body">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label class="control-label">Kunden</label>
+                    @Html.DropDownList("CustomerId", ViewBag.Customer as SelectList, new { @class = "form-control", @Id = "CustomerId" , @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Projekt</label>
+                    <select id="project" name="projectId" class="form-control" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">StartDatum</label>
+                    <input type="date" name="start" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">StartDatum</label>
+                    <input type="date" name="end" class="form-control" required />
+                </div>
+            </div>
+            <div class="box-footer">
+                <input type="submit" class="btn btn-warning btn-block" value="Getir" />
+            </div>
+        }
+        <!-- /.box-body -->
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Suchergebnisse</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <th>Datum</th>
+                        <th>Startzeit</th>
+                        <th>Endzeit</th>
+                        <th>Personal</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ProjectDetailsId</td>
+                            <td>@item.StartDate.Value.ToString("MM/dd/yyyy")</td>
+                            <td>@item.StartDate.Value.ToString("HH:MM")</td>
+                            <td>@item.FinishDate.Value.ToString("HH:MM")</td>
+                            <td>@item.Users.Name @item.Users.LastName</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            @using (Html.BeginForm("DeleteJobsDb", "AdminUser", FormMethod.Post))
+            {
+                <input type="hidden" name="start" value="@ViewBag.Start" />
+                <input type="hidden" name="end" value="@ViewBag.End" />
+                <input type="hidden" name="projectId" value="@ViewBag.ProjectId" />
+                <input type="submit" value="Löschen Alles" class="btn btn-danger btn-block" onclick="return confirm('Sind Sie Sicher');" />
+            }
+        </div>
+    </div>
+    <!-- /.box -->
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#CustomerId").change(function () {
+                $.ajax({
+                    url: '/AdminUser/ProjectsByCustomerId',
+                    data: { customerId: $(this).val() },
+                    dataType: "JSON",
+                    success: function (result) {
+                        var project = $("#project");
+                        project.empty();
+                        $.each(result, function (i, item) {
+                            project.append($("<option></option>").attr("value", item.id)
+                                .html(item.projectName));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

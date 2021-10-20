@@ -1,0 +1,123 @@
+﻿@model IEnumerable<ClearMVC.ModelsVM.DailyJobVM>
+
+@{ ViewBag.Title = "PersonalPage";}
+
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>@ViewBag.News</h3>
+
+                    <p>Mitteilung</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-newspaper-o"></i>
+                </div>
+                <a href="@Url.Action("NewsForPersonal","PersonalUser")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-md-4">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>@ViewBag.Activities</h3>
+                    <p>Aktivität</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-universal-access"></i>
+                </div>
+                <a href="@Url.Action("ActivitiesForPersonal","PersonalUser")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-md-4">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>@ViewBag.ProjectDetails</h3>
+
+                    <p>Aufgaben</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-cog"></i>
+                </div>
+                <a href="@Url.Action("MyJobs","PersonalUser")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+@if (Model.Count() > 0)
+{
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Meine heutiger Aufgabe</h3>
+
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Aufgaben</th>
+                            <th>Startzeit</th>
+                            <th>Endzeit</th>
+                            <th>Dauer</th>
+                            <th>Standort</th>
+                            <th>Für Reklamation</th>
+                            <th>Status</th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                    <tr>
+                        <td>@item.CustomerName</td>
+                        <td>@item.StartTime.ToShortTimeString()</td>
+                        <td>@item.FinishTime.ToShortTimeString()</td>
+                        <td>@item.Duration</td>
+                        <td>@item.Location</td>
+                        <td>
+                            @if (item.ForRefuse == true)
+                            {
+                                <span class="label label-danger">Ja</span>
+                            }
+                            else if (item.ForRefuse == false)
+                            {
+                                <span class="label label-success">Nein</span>
+                            }
+                        </td>
+                        <td>@Html.ActionLink("Gemacht!", "FinishProcessByPersonal", "PersonalUser", new { ProjectDetailId = item.ProjectDetailId }, new { @class = "btn btn-success", onclick = "return confirm('Sind Sie sicher?');" })</td>
+                    </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+}
+else
+{
+    <div class="col-md-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <i class="fa fa-bullhorn"></i>
+
+                <h3 class="box-title">Warnungen</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="callout callout-info">
+                    <h4>Keine Aufgaben für heute verfügbar</h4>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+
+
+}

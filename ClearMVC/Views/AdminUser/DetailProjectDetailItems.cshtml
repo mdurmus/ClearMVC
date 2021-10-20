@@ -1,0 +1,217 @@
+﻿@model ClearMVC.Models.ProjectDetails
+@{
+    ViewBag.Title = "DetailProjectDetailItems";
+}
+
+
+<div class="col-md-12">
+    <div class="col-md-4">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-info-circle"></i>
+                <h3 class="box-title">Aufgabenbeschreibung</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <dl>
+                    <dt>Aufgaben Nr.</dt>
+                    <dd>@Model.Projects.ProjectsId</dd>
+                    <dt>Aufgabe</dt>
+                    <dd>@Model.Projects.Name</dd>
+                    @if (Model.Projects.Location == null)
+                    {
+                        <dt>Standort</dt>
+                        <dd>---</dd>
+                    }
+                    else
+                    {
+                        <dt>Standort</dt>
+                        <dd><a href="@Model.Projects.Location" target="_blank">@Model.Projects.Location</a></dd>
+                    }
+                </dl>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <div class="col-md-4">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-info-circle"></i>
+                <h3 class="box-title">Kunden</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <dl>
+                    <dt>Name</dt>
+                    <dd>@Model.Projects.Customers.Name</dd>
+                    <dt>E-Mail</dt>
+                    <dd><a href="mailto:@Model.Projects.Customers.Email" target="_blank">@Model.Projects.Customers.Email</a></dd>
+                    <dt>Handynummer</dt>
+                    <dd><a href="tel:@Model.Projects.Customers.Phone" target="_blank">@Model.Projects.Customers.Phone</a></dd>
+                </dl>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <div class="col-md-4">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-info-circle"></i>
+
+                <h3 class="box-title">Aufgaben Kontaktperson</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <dl>
+                    <dt>Name FamillienName</dt>
+                    <dd>@Model.Projects.Contacts.First().Name @Model.Projects.Contacts.First().SurName</dd>
+                    <dt>Handynummer</dt>
+                    <dd><a target="_blank" href="tel:@Model.Projects.Contacts.First().GSM">@Model.Projects.Contacts.First().GSM</a></dd>
+                    <dt>Email</dt>
+                    <dd><a target="_blank" href="mailto:@Model.Projects.Contacts.First().Email">@Model.Projects.Contacts.First().Email</a></dd>
+                </dl>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="col-md-4">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-info-circle"></i>
+                <h3 class="box-title">Personal</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <dl>
+                    <dt>Name</dt>
+                    <dd>@Model.Users.Name</dd>
+                    <dt>Nachname</dt>
+                    <dd>@Model.Users.LastName</dd>
+                    <dt>Handynummer</dt>
+                    <dd>@Model.Users.UserDetails.First().GSM</dd>
+                </dl>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <div class="col-md-4">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-info-circle"></i>
+                <h3 class="box-title">Job Detail</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <dl>
+                    <dt>Erstellungsdatum</dt>
+                    <dd>@Model.CreatedDate.ToString()</dd>
+                    <dt>Erstellt von</dt>
+                    <dd>@Model.CreatedBy</dd>
+                    <dt>Abschlussdatum</dt>
+                    <dd>
+                        @if (Model.CompleteDate.Year != 1000)
+                        {
+                            @Model.CompleteDate.ToString()
+                        }
+                        else
+                        {
+                            <p>Nicht Fertig</p>
+                        }
+                    </dd>
+                </dl>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <div class="col-md-4">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-info-circle"></i>
+
+                <h3 class="box-title">Status</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <dl>
+                    <dt>Für Reklamation</dt>
+                    @if (Model.ForRefuse)
+                    {
+                        <dd><span class="label label-danger">Ja</span></dd>
+                    }
+                    else
+                    {
+                        <dd><span class="label label-success">Nein</span></dd>
+                    }
+                    <dt>Reklamation Beendet (Kunden)</dt>
+                    @if (Model.IsCloseRefuseByCustomer)
+                    {
+                        <dd><span class="label label-success">Ja</span></dd>
+                    }
+                    else
+                    {
+                        <dd><span class="label label-danger">Nein</span></dd>
+                    }
+                    <dt></dt>
+                    <dd></dd>
+                </dl>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+
+<div class="col-md-12">
+    <ul class="timeline">
+        @foreach (var item in Model.Refuses)
+        {
+            <!-- timeline time label -->
+            <li class="time-label">
+                <span class="bg-red">
+                    @item.LeaveDate
+                </span>
+            </li>
+            <!-- /.timeline-label -->
+            <!-- timeline item -->
+            <li>
+                <i class="fa fa-envelope bg-blue"></i>
+                <div class="timeline-item">
+                    <span class="time"><i class="fa fa-clock-o"></i> @item.LeaveDate.ToShortTimeString()</span>
+                    <h3 class="timeline-header">@item.CreatedBy</h3>
+                    <div class="timeline-body">
+                        @item.RefuseText
+                    </div>
+                </div>
+            </li>
+            <!-- END timeline item -->
+            <li>
+                <i class="fa fa-camera bg-purple"></i>
+
+                <div class="timeline-item">
+                    <h3 class="timeline-header">Reklamation Bilder</h3>
+                    @if (!string.IsNullOrEmpty(item.FileName))
+                    {
+                        <div class="timeline-body">
+                            <img src="@Url.Content(item.FileName)" alt="Reklamation" class="margin img-responsive" style="padding:10px;">
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="~/Content/img/keineBilder.png" alt="Reklamation" class="margin img-responsive" style="padding:10px;"/>
+                    }
+
+                </div>
+            </li>
+
+
+        }
+    </ul>
+</div>

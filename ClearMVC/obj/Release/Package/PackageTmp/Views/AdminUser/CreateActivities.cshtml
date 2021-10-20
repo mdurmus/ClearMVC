@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Create Activity";
+}
+<div class="col-md-12">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Aktivität Erstellen</h3>
+        </div>
+        @using (Html.BeginForm("CreateActivities", "AdminUser", FormMethod.Post, new { @novalidate = "novalidate" }))
+        {
+            @Html.AntiForgeryToken()
+    <div class="box-body">
+        <div class="form-group">
+            <label class="control-label">Subjekt</label>
+            <input type="text" class="form-control" required name="Subject">
+        </div>
+        <div class="form-group">
+            <label class="control-label">Text</label>
+            <input type="text" class="form-control" required name="ActivityText">
+        </div>
+        <div class="form-group">
+            <label class="control-label">Datum</label>
+            <input type="date" class="form-control" required name="ActivityDate" >
+        </div>
+        <div class="form-group">
+            <label class="control-label">Für Kunden</label>
+            <select name="ForCustomer" class="form-control">
+                <option value="-1" disabled selected>Bitte auswählen</option>
+                <option value="true">Ja</option>
+                <option value="false">Nein</option>
+            </select>
+        </div>
+    </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary btn-block">Erstellen</button>
+            </div>
+        }
+    </div>
+</div>

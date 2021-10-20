@@ -1,0 +1,53 @@
+﻿@model ClearMVC.Models.Customers
+@{
+    ViewBag.Title = "CreateCustomer";
+}
+
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Auftraggeber erstellen</h3>
+            </div>
+            @using (Html.BeginForm("CreateCustomer", "AdminUser", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+        <div class="box-body">
+            <div class="form-group">
+                <label class="control-label">Firmenname ORT bsp. (Firma LU)</label>
+                <input type="text" name="Name" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">E-mail</label>
+                <input type="email" name="Email" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Telefonnummer</label>
+                <input type="text" name="Phone" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Straße</label>
+                <input type="text" name="Strasse" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Nummer</label>
+                <input type="text" name="Number" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">PLZ</label>
+                <input type="text" name="PostalCode" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Standort</label>
+                <input type="text" name="City" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Bundesland</label>
+                <input type="text" name="PostalCode" class="form-control" required />
+            </div>
+        </div>
+                <div class="box-footer">
+                    <input type="submit" class="btn btn-primary btn-block" value="Erstellen" />
+                </div>
+            }
+        </div>
+    </div>

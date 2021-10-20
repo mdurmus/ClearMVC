@@ -1,0 +1,85 @@
+﻿@model IEnumerable<ClearMVC.ModelsVM.AdminDashboardRefuseVM>
+@{
+    ViewBag.Title = "AdminPage";
+}
+
+<div class="col-md-12">
+    <div class="col-md-4">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>@ViewBag.ProjectCount</h3>
+
+                <p>Erstellte Aufgaben</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-gears"></i>
+            </div>
+            <a href="@Url.Action("ListProjects","AdminUser")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-md-4">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>@ViewBag.EmployeeCount</h3>
+
+                <p>Erstellte Mitarbeiter</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-users"></i>
+            </div>
+                <a href="@Url.Action("ListProjects","AdminUser")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-md-4">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>@ViewBag.CustomerCount</h3>
+
+                <p>Erstellte Auftraggeber</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-money"></i>
+            </div>
+            <a href="@Url.Action("ListCustomers","AdminUser")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+  
+</div>
+
+<div class=" col-md-12">
+    <div class="box box-danger">
+        <div class="box-header">
+            <h3 class="box-title">Offene Reklamationen</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <th>Auftraggeber</th>
+                        <th>Aufgaben</th>
+                        <th>Mitarbeiter</th>
+                        <th>Prozess</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Customer</td>
+                            <td>@item.ProjectName</td>
+                            <td>@item.Employee</td>
+                            <td>@Html.ActionLink("Detail", "FollowRefuseByManager", "AdminUser", new { projectDetailId = item.ProjectdetailId }, new { @class = "btn btn-warning btn-sm" })</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</div>
